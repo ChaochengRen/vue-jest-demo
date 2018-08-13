@@ -4,7 +4,7 @@
   "description": "a jest demo based on a Vue project",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --watch --config --mode=production --config src/config/webpack.config.js",
+    "build": "webpack --progress --watch--mode=production --config src/config/webpack.config.js",
     "dev": "webpack-dev-server --mode=development --open  --watch --progress --config src/config/webpack.config.js",
     "test": "jest"
   },
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "vue-loader": "^15.3.0",
+    "vue-template-compiler": "^2.5.17",
     "babel-preset-env": "^1.7.0",
     "css-loader": "^1.0.0",
     "url-loader": "^1.0.1",

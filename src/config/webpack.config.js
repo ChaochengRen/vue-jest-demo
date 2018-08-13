@@ -4,10 +4,12 @@ const webpack = require('webpack');
 const VueLoader = require('vue-loader/lib/plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, "../app.js"),
+    entry: {
+        app: path.resolve(__dirname, "../app.js")
+    },
     output: {
-        path: path.resolve(__dirname, "./dist"),
-        filename: "[name].js"
+        path: path.resolve(__dirname, "../../dist"),
+        filename: "[name].bundle.js"
     },
     module: {
         rules: [{
