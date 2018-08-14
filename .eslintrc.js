@@ -13,5 +13,6 @@ module.exports = {
         "ecmaFeatures": { 
             "jsx": true
         }
-    }
+    },
+    "plugins": ["vue"]
 }
