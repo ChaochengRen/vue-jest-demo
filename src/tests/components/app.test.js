@@ -16,5 +16,9 @@ describe('App.test.js', () => {
     it('equals messages to \'Boom!\'', () => {
       expect(vm.msg).toEqual('Boom!');
     })
+
+    it('has expected html', () => {
+        expect(vm.$el).toMatchSnapshot();
+    })
   })
   

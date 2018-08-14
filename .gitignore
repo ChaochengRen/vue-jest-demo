@@ -3,3 +3,5 @@
 /dist
 .eslintcache
 /coverage
+**/__snapshots__/**
+*.snap
