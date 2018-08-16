@@ -6,7 +6,7 @@ export default {
     name: 'Message',
     props: {
         msg: {
-            type: 'string',
+            type: String,
             required: true
         }
     } 
