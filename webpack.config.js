@@ -4,20 +4,34 @@ const webpack = require('webpack');
 const VueLoader = require('vue-loader/lib/plugin');
 
 module.exports = {
-    entry: {
-        app: path.resolve(__dirname, "../app.js")
-    },
+    entry: './src/app.js',
     output: {
-        path: path.resolve(__dirname, "../../dist"),
+        path: path.resolve(__dirname, "./dist"),
         filename: "[name].bundle.js"
+    },
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     module: {
         rules: [{
             test: /\.vue$/,
             loader: 'vue-loader'
         }, {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['env', 'stage-2']
+                }
+            }
+        }, {
             test: /\.css$/,
-            loader: 'css-loader'
+            loader: ['vue-style-loader', 'css-loader']
         }, {
             test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
             loader: 'url-loader?limit=1024'
@@ -27,7 +41,7 @@ module.exports = {
         clientLogLevel: 'warning',
         historyApiFallback: {
             rewrites: [
-                {from: /./, to: '/'}
+                { from: /./, to: '/' }
             ]
         },
         hot: true,

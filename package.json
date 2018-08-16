@@ -4,8 +4,8 @@
   "description": "a jest demo based on a Vue project",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --watch --mode=production --config src/config/webpack.config.js",
-    "dev": "webpack-dev-server --mode=development --open  --watch --progress --config src/config/webpack.config.js",
+    "build": "webpack --progress --watch --mode=production --config webpack.config.js",
+    "dev": "webpack-dev-server --mode=development --open  --watch --progress --config webpack.config.js",
     "test": "./node_modules/.bin/jest",
     "lint": "eslint src --ext .js,.vue"
   },
@@ -25,18 +25,47 @@
   "homepage": "https://github.com/ChaochengRen/vue-jest-demo#readme",
   "babel": {
     "presets": [
-      "env"
-    ]
+      [
+        "env", {
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "> 1%",
+              "last 2 versions",
+              "not ie <= 8"
+            ]
+          }
+      }],
+      "stage-2"
+    ],
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "node": "current"
+              }
+            }
+          ]
+        ]
+      }
+    }
   },
   "dependencies": {
     "vue": "^2.5.17"
   },
   "devDependencies": {
     "vue-loader": "^15.3.0",
+    "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.17",
     "vue-jest": "^2.6.0",
+    "@vue/test-utils": "^1.0.0-beta.24",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "babel-jest": "^23.4.2",
+    "babel-loader": "^7.1.5",
     "css-loader": "^1.0.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.16.5",
