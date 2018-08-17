@@ -14,7 +14,13 @@ describe('MessagePool', () => {
 
     test('has two message', () => {
         wrapper.setData({
-            msgList: ['Test Msg1', 'Test Msg2']
+            msgList: [{
+                message: 'Test1',
+                name: 'a'
+            }, {
+                message: 'Test2',
+                name: 'b'
+            }]
         });
         expect(wrapper.findAll('li').length).toBe(2);
     })
@@ -24,12 +30,12 @@ describe('MessagePool', () => {
     })
 
     describe('test stop and resume', () => {
-        test.only('is timer stopped', () => {
+        test('is timer stopped', () => {
             wrapper.vm.stop();
             expect(wrapper.vm.timer).toBeNull();
         })
 
-        test.only('is timer resume', () => {
+        test('is timer resume', () => {
             wrapper.vm.stop();
             wrapper.vm.resume();
             expect(wrapper.vm.timer != null).toBe(true);

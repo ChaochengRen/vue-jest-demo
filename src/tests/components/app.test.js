@@ -61,7 +61,7 @@ describe('App.test.js', () => {
         spied = jest.spyOn(wrapper.vm, 'poolUpdate');
       })
 
-      test.only('custom event emitted calls update handler', () => {
+      test('custom event emitted calls update handler', () => {
         jest.useFakeTimers();
         setTimeout(() => {
           expect(spied).toHaveBeenCalled();
