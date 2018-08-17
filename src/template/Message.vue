@@ -1,19 +1,21 @@
 <template>
-    <li>{{msg}}</li>
+    <li>
+        <span>{{msg.name}}：</span>
+        <span>{{msg.message}}</span>
+    </li>
 </template>
 <script>
 export default {
-    name: 'Message',
-    props: {
-        msg: {
-            type: String,
-            required: true
-        }
-    } 
-}
+  name: "Message",
+  props: {
+    msg: {
+      type: Object,
+      required: true
+    }
+  }
+};
 </script>
 <style>
-
 </style>
 
 

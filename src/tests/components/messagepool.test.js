@@ -29,9 +29,10 @@ describe('MessagePool', () => {
             expect(wrapper.vm.timer).toBeNull();
         })
 
-        test.only('is timer stopped', () => {
+        test.only('is timer resume', () => {
+            wrapper.vm.stop();
             wrapper.vm.resume();
-            expect(wrapper.vm.timer).not.toBeNull();
+            expect(wrapper.vm.timer != null).toBe(true);
         })
     })
 })

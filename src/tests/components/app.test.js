@@ -34,18 +34,38 @@ describe('App.test.js', () => {
         })
     })
 
+    /* structure and style testing */
     describe('test h1 classes', () => {
-      test.only('element h1 default classes contain font-active', () => {
+      test('element h1 default classes contain font-active', () => {
           let h1Wrapper = wrapper.find('h1');
           expect(h1Wrapper.classes()).toContain('font-active');
       })
 
-      test.only('element h1 classes changed by clicking button', () => {
+      test('element h1 classes changed by clicking button', () => {
           let h1Wrapper = wrapper.find('h1');
           let btnWrapper = wrapper.find('button');
           expect(h1Wrapper.classes()).toContain('font-active');
           btnWrapper.trigger('click');
           expect(h1Wrapper.classes()).toContain('font-inactive');
+      })
+    })
+
+    describe('test custom event', () => {
+      let updateHandler = jest.fn(), spied;
+      beforeEach(() => {
+        // replace with a mock function
+        wrapper.setMethods({
+          poolUpdate: updateHandler
+        });
+        // spy on poolUpdate()
+        spied = jest.spyOn(wrapper.vm, 'poolUpdate');
+      })
+
+      test.only('custom event emitted calls update handler', () => {
+        jest.useFakeTimers();
+        setTimeout(() => {
+          expect(spied).toHaveBeenCalled();
+        }, 2000);
       })
     })
   })

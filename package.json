@@ -54,7 +54,8 @@
     }
   },
   "dependencies": {
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "axios": "^0.18.0"
   },
   "devDependencies": {
     "vue-loader": "^15.3.0",

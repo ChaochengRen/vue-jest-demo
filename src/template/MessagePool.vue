@@ -1,10 +1,13 @@
 <template>
     <ul>
-        <Message v-for="(msg, index) in msgList" :key="index" :msg="msg"></Message>
+        <transition-group name="list">
+            <Message v-for="(msg, index) in msgList" :key="index" :msg="msg"></Message>
+        </transition-group>
     </ul>
 </template>
 <script>
 import Message from "./Message";
+import axios from "axios";
 
 const EVENT_UPDATE = "update";
 
@@ -13,11 +16,20 @@ export default {
   components: { Message },
   data() {
     return {
-      count: 0,
       timer: null,
       msgList: [],
-      maxVisibleLength: 10
+      maxVisibleLength: 10,
+      data: null,
+      request: axios.create({
+        baseURL:
+          "https://www.easy-mock.com/mock/5b765aef4d2b8f332fda9656/msgpool"
+      })
     };
+  },
+  computed: {
+    count() {
+      return this.msgList.length;
+    }
   },
   mounted() {
     this.start();
@@ -27,19 +39,7 @@ export default {
   },
   methods: {
     genMsg() {
-      let msgList = [
-        "China",
-        "America",
-        "Cuba",
-        "Japan",
-        "France",
-        "United Kindom",
-        "Russia",
-        "Belgium",
-        "Brazil",
-        "Netherlands"
-      ];
-      return msgList[Math.floor(Math.random() * 10)];
+      return this.request.get("/mock-msg");
     },
     stop() {
       if (this.timer) {
@@ -50,7 +50,7 @@ export default {
     },
     resume() {
       if (!this.timer) {
-          this.start();
+        this.start();
       }
     },
     start() {
@@ -58,20 +58,32 @@ export default {
         return;
       }
       this.timer = setInterval(() => {
-        let list = this.msgList;
-        if (list.length === this.maxVisibleLength) {
-          list.splice(0, 1);
-        }
-        this.count++;
-        this.$emit(EVENT_UPDATE, this.count);
-        list.push(this.genMsg());
-      }, 1000);
+        this.genMsg().then(resp => {
+          let list = this.msgList;
+          if (list.length === this.maxVisibleLength) {
+            list.splice(0, 1);
+          }
+          list.push(resp.data);
+          this.$emit(EVENT_UPDATE, this.count);
+        });
+      }, 2000);
       console.log("Timer is ticking.");
     }
   }
 };
 </script>
 <style>
+.list-enter-active,
+.list-leave-active {
+  transition: all opacity 0.5s;
+}
+.list-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.list-move {
+  transition: transform 1s;
+}
 </style>
 
 
