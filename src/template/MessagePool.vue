@@ -9,15 +9,13 @@
 import Message from "./Message";
 import axios from "axios";
 
-const EVENT_UPDATE = "update";
-
 export default {
   name: "MessagePool",
   components: { Message },
   data() {
     return {
       timer: null,
-      msgList: [],
+      // msgList: [],
       maxVisibleLength: 10,
       data: null,
       request: axios.create({
@@ -27,12 +25,12 @@ export default {
     };
   },
   computed: {
-    count() {
-      return this.msgList.length;
+    msgList() {
+      return this.$store.state.msgList;
     }
   },
   mounted() {
-    this.start();
+    // this.start();
   },
   destroyed() {
     this.stop();
@@ -64,7 +62,6 @@ export default {
             list.splice(0, 1);
           }
           list.push(resp.data);
-          this.$emit(EVENT_UPDATE, this.count);
         });
       }, 2000);
       console.log("Timer is ticking.");

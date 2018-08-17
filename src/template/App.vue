@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 :class="msgClass">{{msg}}</h1>
-        <MessagePool ref="pool" v-on:update="poolUpdate"></MessagePool>
+        <MessagePool ref="pool"></MessagePool>
         <button @click="togglePoolSwitch">{{operator}}</button>
     </div>
 </template>
@@ -13,7 +13,6 @@ export default {
     components: { MessagePool },
     data() {
         return {
-            msg: 'Amount of message: 0',
             operator: '暂停'
         }
     },
@@ -23,12 +22,12 @@ export default {
                 'font-active': this.operator === '暂停',
                 'font-inactive': this.operator === '继续'
             }
+        },
+        msg() {
+            return 'Amount of message: ' + this.$store.getters.msgAmount;
         }
     },
     methods: {
-        poolUpdate(info) {
-            this.msg = `Amount of message: ${info}`;
-        },
         togglePoolSwitch() {
             let operator = this.operator;
             let pool = this.$refs['pool'];
