@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App.test.js has expected html 1`] = `
+<div
+  class="container-layout"
+>
+  <h1
+    class="font-active font-family inline info"
+  >
+    Amount of message: 0
+  </h1>
+   
+  <div
+    class="toggle-btn inline right"
+  >
+    暂停
+  </div>
+   
+  <div
+    class="pool"
+  >
+    <div
+      class="pool"
+    >
+      <ul />
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MessagePool has expected html 1`] = `
+<div
+  class="pool"
+>
+  <ul />
+</div>
+`;

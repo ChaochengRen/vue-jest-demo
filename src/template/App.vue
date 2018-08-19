@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="container-layout">
         <h1 :class="msgClass">{{msg}}</h1>
-        <MessagePool ref="pool"></MessagePool>
-        <button @click="togglePoolSwitch">{{operator}}</button>
+        <div class="toggle-btn inline right" @click="togglePoolSwitch">{{operator}}</div>
+        <div class="pool">
+            <MessagePool ref="pool"></MessagePool>
+        </div>
     </div>
 </template>
 <script>
@@ -20,7 +22,10 @@ export default {
         msgClass() {
             return {
                 'font-active': this.operator === '暂停',
-                'font-inactive': this.operator === '继续'
+                'font-inactive': this.operator === '继续',
+                'font-family': true,
+                'inline': true,
+                "info": true
             }
         },
         msg() {
@@ -37,11 +42,48 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
+    body {
+        background: #2d2d47
+    }
     .font-active {
-        color: black
+        color: #dddddd
     }
     .font-inactive {
-        color: #dddddd
+        color: #6f6983
+    }
+    .font-family {
+        font-family: Helvetica, Courier, monospace, Arial, "Microsoft Yahei", "微软雅黑";
+        font-weight: lighter
+    }
+    .inline {
+        display: inline-block;
+    }
+    .info {
+        margin-left: calc(50% - 190px);
+    }
+    .right {
+        float: right;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+    .pool {
+        margin: 0 calc(50% - 400px)
+    }
+    .toggle-btn {
+        width: 50px;
+        height: 50px;
+        background: #4e6b9f;
+        -moz-border-radius: 25px;
+        -webkit-border-radius: 25px;
+        border-radius: 25px;
+        line-height: 50px;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+    }
+    .container-layout {
+        width: 100%;
+        height: 100%;
     }
 </style>

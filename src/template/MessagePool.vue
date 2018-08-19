@@ -1,13 +1,12 @@
 <template>
-    <ul>
-        <transition-group name="list">
-            <Message v-for="(msg, index) in msgList" :key="index" :msg="msg"></Message>
-        </transition-group>
-    </ul>
+    <div class="pool">
+      <ul>
+          <Message @itemClicked="handleClick" v-for="(msg, index) in msgList" :key="index" :msg="msg"></Message>
+      </ul>
+    </div>
 </template>
 <script>
 import Message from "./Message";
-import axios from "axios";
 
 export default {
   name: "MessagePool",
@@ -15,29 +14,26 @@ export default {
   data() {
     return {
       timer: null,
-      // msgList: [],
       maxVisibleLength: 10,
-      data: null,
-      request: axios.create({
-        baseURL:
-          "https://www.easy-mock.com/mock/5b765aef4d2b8f332fda9656/msgpool"
-      })
+      data: null
     };
   },
   computed: {
     msgList() {
-      return this.$store.state.msgList;
+      let msgList = this.$store.state.msgList, len = msgList.length;
+      let start = len - this.maxVisibleLength;
+      return msgList.slice(start >= 0 ? start : 0, msgList.length);
     }
   },
   mounted() {
-    // this.start();
+    this.start();
   },
   destroyed() {
     this.stop();
   },
   methods: {
     genMsg() {
-      return this.request.get("/mock-msg");
+      this.$store.dispatch('getMsgFromRemote');
     },
     stop() {
       if (this.timer) {
@@ -56,30 +52,29 @@ export default {
         return;
       }
       this.timer = setInterval(() => {
-        this.genMsg().then(resp => {
-          let list = this.msgList;
-          if (list.length === this.maxVisibleLength) {
-            list.splice(0, 1);
-          }
-          list.push(resp.data);
-        });
+        this.genMsg();
       }, 2000);
       console.log("Timer is ticking.");
+    },
+    handleClick() {
+      this.timer != null ? this.stop() : this.resume();
     }
   }
 };
 </script>
 <style>
-.list-enter-active,
-.list-leave-active {
-  transition: all opacity 0.5s;
+ul {
+  list-style: none;
+  width: calc(100% - 24px);
+  padding: 0;
+  margin: 0 8px;
 }
-.list-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.list-move {
-  transition: transform 1s;
+.pool {
+  width: 800px;
+  min-height: 580px;
+  border: 1px solid #0c6188;
+  border-radius: 5px;
+  background: #0c6188;
 }
 </style>
 

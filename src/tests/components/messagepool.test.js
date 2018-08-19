@@ -1,11 +1,35 @@
 import MessagePool from './../../template/MessagePool'
 import {mount} from '@vue/test-utils'
+import Vue from 'vue'
+import Vuex from 'vuex'
+import {state, getters} from './../../js/store'
+
+Vue.use(Vuex);
 
 describe('MessagePool', () => {
     let wrapper;
+    let store;
+    let GET_MSG_FROM_REMOTE, PUSH_MSG;
 
     beforeEach(() => {
-        wrapper = mount(MessagePool);
+        GET_MSG_FROM_REMOTE = jest.fn();
+        PUSH_MSG = jest.fn();
+        
+        store = new Vuex.Store({
+          state,
+          getters,
+          mutations: {
+            pushMsg: PUSH_MSG
+          },
+          actions: {
+              getMsgFromRemote: GET_MSG_FROM_REMOTE
+          }        
+        });
+        wrapper = mount(MessagePool, {
+            mocks: {
+                $store: store
+            }
+        });
     })
 
     test('has expected html', () => {
@@ -13,14 +37,32 @@ describe('MessagePool', () => {
     })
 
     test('has two message', () => {
-        wrapper.setData({
+        GET_MSG_FROM_REMOTE = jest.fn();
+        PUSH_MSG = jest.fn();
+        
+        store = new Vuex.Store({
+          state: {
             msgList: [{
-                message: 'Test1',
-                name: 'a'
+                "name": "mock-name1",
+                "message": "mock-msg1"
             }, {
-                message: 'Test2',
-                name: 'b'
-            }]
+                "name": "mock-name2",
+                "message": "mock-msg2"
+            }],
+            maxListSize: 1000
+          },  
+          getters,
+          mutations: {
+            pushMsg: PUSH_MSG
+          },
+         actions: {
+              getMsgFromRemote: GET_MSG_FROM_REMOTE
+          }        
+        });
+        wrapper = mount(MessagePool, {
+            mocks: {
+                $store: store
+            }
         });
         expect(wrapper.findAll('li').length).toBe(2);
     })
