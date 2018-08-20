@@ -17,7 +17,7 @@ exports[`App.test.js has expected html 1`] = `
   </div>
    
   <div
-    class="pool"
+    class="pool-container"
   >
     <div
       class="pool"

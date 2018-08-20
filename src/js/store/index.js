@@ -4,11 +4,6 @@ import axios from 'axios'
 
 Vue.use(Vuex);
 
-const request = axios.create({
-    baseURL:
-      "https://www.easy-mock.com/mock/5b765aef4d2b8f332fda9656/msgpool"
-});
-
 export const state = {
     msgList: [],
     maxListSize: 1000
@@ -28,10 +23,10 @@ export const mutations = {
     }
 }
 
-const actions = {
+export const actions = {
     getMsgFromRemote: ({commit}) => {
-        request
-            .get('/mock-msg')
+        axios
+            .get('https://www.easy-mock.com/mock/5b765aef4d2b8f332fda9656/msgpool/mock-msg')
             .then(resp => {
                 commit('pushMsg', {
                     msg: resp.data

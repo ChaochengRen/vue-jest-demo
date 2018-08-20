@@ -2,7 +2,7 @@
     <div class="container-layout">
         <h1 :class="msgClass">{{msg}}</h1>
         <div class="toggle-btn inline right" @click="togglePoolSwitch">{{operator}}</div>
-        <div class="pool">
+        <div class="pool-container">
             <MessagePool ref="pool"></MessagePool>
         </div>
     </div>
@@ -67,7 +67,7 @@ export default {
         margin-top: 10px;
         margin-right: 10px;
     }
-    .pool {
+    .pool-container {
         margin: 0 calc(50% - 400px)
     }
     .toggle-btn {

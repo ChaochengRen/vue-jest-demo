@@ -1,10 +1,12 @@
 import MessagePool from './../../template/MessagePool'
-import {mount} from '@vue/test-utils'
-import Vue from 'vue'
+import Message from './../../template/Message'
+import {mount, createLocalVue} from '@vue/test-utils'
 import Vuex from 'vuex'
 import {state, getters} from './../../js/store'
 
-Vue.use(Vuex);
+const localVue = createLocalVue();
+
+localVue.use(Vuex);
 
 describe('MessagePool', () => {
     let wrapper;
@@ -32,10 +34,12 @@ describe('MessagePool', () => {
         });
     })
 
+    /* structure */
     test('has expected html', () => {
         expect(wrapper.vm.$el).toMatchSnapshot();
     })
 
+    /* structure */
     test('has two message', () => {
         GET_MSG_FROM_REMOTE = jest.fn();
         PUSH_MSG = jest.fn();
@@ -81,6 +85,51 @@ describe('MessagePool', () => {
             wrapper.vm.stop();
             wrapper.vm.resume();
             expect(wrapper.vm.timer != null).toBe(true);
+        })
+    })
+
+    /* custom event */
+    describe('test event', () => {
+        beforeEach(() => {
+            store = new Vuex.Store({
+                state: {
+                    msgList: [{
+                        "name": "mock-name1",
+                        "message": "mock-msg1"
+                    }]
+                },
+                getters,
+                mutations: {
+                  pushMsg: PUSH_MSG
+                },
+                actions: {
+                    getMsgFromRemote: GET_MSG_FROM_REMOTE
+                }        
+              });
+              wrapper = mount(MessagePool, {
+                  mocks: {
+                      $store: store
+                  }
+              });
+        })
+
+        test('test the custom event itemClicked is fired', () => {
+            let stub = jest.fn();
+            wrapper.setMethods({
+                handleClick: stub
+            });
+            wrapper.vm.$on('itemClicked');
+            wrapper.find('li').trigger('click');
+            expect(stub).toBeCalled();
+        })
+
+        test('test the custom event itemClicked can be emitted', () => {
+            let stub = jest.fn();
+            wrapper.setMethods({
+                handleClick: stub
+            });
+            wrapper.find(Message).vm.$emit('itemClicked');
+            expect(stub).toBeCalled();
         })
     })
 })
